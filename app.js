@@ -13,4 +13,8 @@ app.get("/in",(req,res)=>{
     indiaTodayNews().then(list => res.send(list))    
 })
 
+app.get("/Tin",(req,res)=>{
+    indiaTodayNews().then(list => res.send(list))    
+})
+
 app.listen(8080)
