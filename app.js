@@ -1,4 +1,4 @@
-const {getNdtvNews,indiaTodayNews}=require('./newsScraper')
+const {getNdtvNews,indiaTodayNews,getTinNews}=require('./newsScraper')
 const express = require("express")
 
 
@@ -13,8 +13,8 @@ app.get("/in",(req,res)=>{
     indiaTodayNews().then(list => res.send(list))    
 })
 
-app.get("/Tin",(req,res)=>{
-    indiaTodayNews().then(list => res.send(list))    
+app.get("/tin",(req,res)=>{
+    getTinNews().then(list => res.send(list))    
 })
 
 app.listen(8080)
