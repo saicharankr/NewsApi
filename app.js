@@ -9,9 +9,9 @@ const cors = require('cors')
 const app = express()
 app.use(cors())
 
-app.get("/",(req,res)=>{
-    res.send("app started")
-})
+// app.get("/",(req,res)=>{
+//     res.send("app started")
+// })
 
 app.get("/ndtv", (req, res) => {
     getNdtvNews().then(function (list) {
