@@ -11,6 +11,11 @@ app.use(cors())
 
 app.set('port', (process.env.PORT || 5000));
 
+app.get("/", (req, res) => {
+  res.send("Api started")
+})
+
+
 app.get("/ndtv", (req, res) => {
     getNdtvNews().then(function (list) {
         const page = parseInt(req.query.page) || 1;
