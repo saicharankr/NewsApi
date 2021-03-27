@@ -9,9 +9,7 @@ const cors = require('cors')
 const app = express()
 app.use(cors())
 
-// app.get("/",(req,res)=>{
-//     res.send("app started")
-// })
+app.set('port', (process.env.PORT || 5000));
 
 app.get("/ndtv", (req, res) => {
     getNdtvNews().then(function (list) {
@@ -63,4 +61,6 @@ app.get("/tin", (req, res) => {
     }).catch((err) => console.log(err))
 })
 
-app.listen(8080)
+app.listen(app.get('port'), function() {
+    console.log('App is running, server is listening on port ', app.get('port'));
+});
