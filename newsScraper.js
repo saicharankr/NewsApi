@@ -19,12 +19,21 @@ exports.getNdtvNews = async () => {
             );
             const $ = cheerio.load(data);
             $('div.news_Itm > div.news_Itm-img').each((_idx, el) => {
-                var newsItem = { "link": el.firstChild.attribs.href, 
-                "imgLink": el.firstChild.firstChild.attribs.src, 
-                "title": el.firstChild.firstChild.attribs.title, 
-                "content": el.nextSibling.children[2].firstChild.data,
-                "source":"ndtv" }
-                newsList.push(newsItem)
+                var link = el.firstChild.attribs.href;
+                var imgLink = el.firstChild.firstChild.attribs.src;
+                var title = el.firstChild.firstChild.attribs.title;
+                var content = el.nextSibling.children[2].firstChild.data;
+
+                if((link != undefined && link != null) || (imgLink != undefined && imgLink != null) || (title != undefined && title != null) || (content != undefined && content != null)){
+                    var newsItem = { 
+                        "link": link, 
+                        "imgLink":imgLink , 
+                        "title": title, 
+                        "content": content,
+                        "source":"Ndtv" 
+                    }
+                    newsList.push(newsItem)
+                } 
             });
         }
         return newsList
@@ -99,22 +108,27 @@ exports.indiaTodayNews = async () => {
 
 exports.getTinNews = async () => {
     try {
-        var noPage = 10;
+        var noPage = 4;
         const newsList = [];
         for (var i = 1; i <= noPage; i++) {
             const { data } = await axios.get(
                 `https://indianexpress.com/section/india/page/${i}/`
             );
             const $ = cheerio.load(data);
-            $('div.nation > div.articles' ||'div.nation > div.articles.first').each((_idx, el) => {               
-                var newsItem = { 
-                    "link": el.firstChild.children[1].attribs.href, 
-                    "imgLink": el.firstChild.children[1].firstChild.attribs.src, 
-                    "title": el.firstChild.nextSibling.children[1].firstChild.data, 
-                    "content": el.lastChild.firstChild.data,
-                    "source":"indianexpress"
-                }
+            $('div.nation > div.articles' ||'div.nation > div.articles.first').each((_idx, el) => {   
+                var obj = el.firstChild.firstChild.nextSibling.firstChild.attribs
+                if(obj != undefined && obj != null){
+                    var key = Object.keys(obj)[6]
+                    var value = obj[key]
+                    var newsItem = { 
+                        "link": el.firstChild.children[1].attribs.href, 
+                        "imgLink": value, 
+                        "title": el.firstChild.nextSibling.children[1].firstChild.data, 
+                        "content": el.lastChild.firstChild.data,
+                        "source":"indianexpress"
+                    }
                 newsList.push(newsItem)
+            }
             });
         }
         return newsList
